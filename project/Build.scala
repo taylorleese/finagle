@@ -6,6 +6,8 @@ import com.typesafe.sbt.SbtSite.site
 import com.typesafe.sbt.site.SphinxSupport.Sphinx
 
 object Finagle extends Build {
+  val scalaTwoTen = "2.10.5"
+  val scalaTwoEleven = "2.11.6"
   val libVersion = "6.24.0"
   val zkVersion = "3.3.4"
   val utilVersion = "6.23.0"
@@ -52,8 +54,8 @@ object Finagle extends Build {
   val sharedSettings = Seq(
     version := libVersion,
     organization := "com.twitter",
-    crossScalaVersions := Seq("2.10.4", "2.11.4"),
-    scalaVersion := "2.10.4",
+    crossScalaVersions := Seq(scalaTwoTen, scalaTwoEleven),
+    scalaVersion := scalaTwoTen,
     libraryDependencies ++= Seq(
       "org.scalacheck" %% "scalacheck" % "1.11.3" % "test",
       "org.scalatest" %% "scalatest" % "2.2.2" % "test",
@@ -80,7 +82,7 @@ object Finagle extends Build {
     scalacOptions ++= Seq("-encoding", "utf8"),
     scalacOptions += "-deprecation",
     scalacOptions <++= scalaVersion.map {
-      case "2.10" | "2.10.4" => Seq("-language:_")
+      case "2.10" | `scalaTwoTen` => Seq("-language:_")
       case _ => Seq.empty[String]
     },
     javacOptions ++= Seq("-source", "1.6", "-target", "1.6"),
@@ -208,7 +210,7 @@ object Finagle extends Build {
       sharedSettings
   ).settings(
     name := "finagle-ostrich4",
-    crossScalaVersions ~= { versions => versions filter (_ != "2.11.4") },
+    crossScalaVersions ~= { versions => versions filter (_ != scalaTwoEleven) },
     libraryDependencies ++= Seq(ostrichLib)
   ).dependsOn(finagleCore, finagleHttp)
 
@@ -439,7 +441,7 @@ object Finagle extends Build {
       sharedSettings
   ).settings(
     name := "finagle-redis",
-    crossScalaVersions ~= { versions => versions filter (_ != "2.11.4") },
+    crossScalaVersions ~= { versions => versions filter (_ != scalaTwoEleven) },
     libraryDependencies ++= Seq(
       util("logging"),
       "org.scala-tools.testing" %% "specs" % "1.6.9" % "test"
@@ -507,7 +509,7 @@ object Finagle extends Build {
       sharedSettings
   ).settings(
     name := "finagle-stress",
-    crossScalaVersions ~= { versions => versions filter (_ != "2.11.4") },
+    crossScalaVersions ~= { versions => versions filter (_ != scalaTwoEleven) },
     libraryDependencies ++= Seq(ostrichLib, util("logging")) ++ thriftLibs,
     libraryDependencies += "com.google.caliper" % "caliper" % "0.5-rc1"
   ).dependsOn(finagleCore, finagleOstrich4, finagleThrift, finagleHttp, finagleThriftMux)
@@ -530,7 +532,7 @@ object Finagle extends Build {
       sharedSettings
   ).settings(
     name := "finagle-example",
-    crossScalaVersions ~= { versions => versions filter (_ != "2.11.4") },
+    crossScalaVersions ~= { versions => versions filter (_ != scalaTwoEleven) },
     libraryDependencies ++= Seq(
       util("codec"),
       "com.twitter.common" % "flags" % "0.0.1" exclude("com.twitter", "util-core"),
@@ -549,7 +551,7 @@ object Finagle extends Build {
       sharedSettings
   ).settings(
     name := "finagle-benchmark",
-    crossScalaVersions ~= { versions => versions filter (_ != "2.11.4") },
+    crossScalaVersions ~= { versions => versions filter (_ != scalaTwoEleven) },
     // include again when we can properly depend on finagleSwift
     excludeFilter in Compile := "ThriftDispatch.scala",
     libraryDependencies ++= Seq(

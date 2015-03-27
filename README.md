@@ -1,5 +1,7 @@
 ![Finagle logo](https://raw.github.com/twitter/finagle/master/doc/src/sphinx/_static/logo_small.png)
 
+[![Build Status](https://travis-ci.org/twitter/finagle.png?branch=master)](https://travis-ci.org/twitter/finagle)
+
 ## Getting involved
 
 * Website: https://twitter.github.io/finagle/

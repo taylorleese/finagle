@@ -1,12 +1,13 @@
 language: scala
 
 scala:
-  - 2.10.4
+  - 2.10.5
+  - 2.11.6
 
 jdk:
-  - oraclejdk7
-  - openjdk6
   - openjdk7
+  - oraclejdk7
+  - oraclejdk8
 
 before_script:
   # default $SBT_OPTS is irrelevant to sbt lancher
@@ -20,6 +21,7 @@ script:
 
   # run conditinally because they don't pass with openjdks
   - if [ "$TRAVIS_JDK_VERSION" = "oraclejdk7" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-native/test; fi
+  - if [ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-native/test; fi
 
   # run for all environments
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-commons-stats/test
@@ -40,3 +42,5 @@ script:
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thrift/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thriftmux/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-zipkin/test
+
+sudo: false
