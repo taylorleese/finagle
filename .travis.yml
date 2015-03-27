@@ -24,7 +24,7 @@ script:
   - if [ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-native/test; fi
 
   # run conditionally because there is no 2.11 version of ostrich
-  - if [ "$TRAVIS_SCALA_VERSION" = "2.11.6" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-ostrich4/test; fi
+  - if [ "$TRAVIS_SCALA_VERSION" = "2.10.5" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-ostrich4/test; fi
 
   # run for all environments
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-commons-stats/test
