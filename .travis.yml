@@ -1,25 +1,47 @@
 language: scala
 
 scala:
-  - 2.10.4
+  - 2.10.5
+  - 2.11.6
 
 jdk:
-  - oraclejdk7
-  - openjdk6
   - openjdk7
+  - oraclejdk7
+  - oraclejdk8
 
 before_script:
   # default $SBT_OPTS is irrelevant to sbt lancher
   - unset SBT_OPTS
 
 script:
-  # skip these projects because they don't pass on travis-ci
+  # skip tests on (but still compile) these projects because they don't pass on travis-ci
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-http/test:compile
   - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-http/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-memcached/test:compile
   - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-memcached/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-memcachedx/test:compile
+  - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-memcachedx/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-mux/test:compile
   - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-mux/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thriftmux/test:compile
+  - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-thriftmux/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx/test:compile
+  - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx-compat/test:compile
+  - echo skip ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx-compat/test
 
   # run conditinally because they don't pass with openjdks
   - if [ "$TRAVIS_JDK_VERSION" = "oraclejdk7" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-native/test; fi
+  - if [ "$TRAVIS_JDK_VERSION" = "oraclejdk8" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-native/test; fi
+
+  # run conditionally because they only build with 2.10
+  - if [ "$TRAVIS_SCALA_VERSION" = "2.10.5" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-ostrich4/test; fi
+  - if [ "$TRAVIS_SCALA_VERSION" = "2.10.5" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-redis/test; fi
+  - if [ "$TRAVIS_SCALA_VERSION" = "2.10.5" ]; then ./sbt ++$TRAVIS_SCALA_VERSION finagle-stress/test; fi
+
+  # run for all environments (compile only -- no tests)
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-example/compile
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-benchmark/compile
 
   # run for all environments
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-commons-stats/test
@@ -27,15 +49,13 @@ script:
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-exception/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-exp/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-kestrel/test
+  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-kestrelx/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-mdns/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-mysql/test
-  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-ostrich4/test
-  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-redis/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-serversets/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-spdy/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-stats/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-stream/test
-  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-stress/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-testers/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thrift/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thriftmux/test
