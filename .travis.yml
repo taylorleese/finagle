@@ -60,5 +60,3 @@ script:
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thrift/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-thriftmux/test
   - ./sbt ++$TRAVIS_SCALA_VERSION finagle-zipkin/test
-  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx/test
-  - ./sbt ++$TRAVIS_SCALA_VERSION finagle-httpx-compat/test
