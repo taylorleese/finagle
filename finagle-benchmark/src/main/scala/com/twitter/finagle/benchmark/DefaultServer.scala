@@ -38,6 +38,7 @@ class FixedNumReadsTransport[In, Out](readVal: Out, nReadsAllowed: Int) extends 
     }
   }
 
+  def isOpen = !closep.isDefined
   def status: Status = if (closep.isDefined) Status.Closed else Status.Open
 
   def close(deadline: Time) = {
