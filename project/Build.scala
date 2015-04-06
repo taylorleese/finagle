@@ -62,7 +62,10 @@ object Finagle extends Build {
       "junit" % "junit" % "4.10" % "test",
       "org.mockito" % "mockito-all" % "1.9.5" % "test"
     ),
-    resolvers += "twitter-repo" at "http://maven.twttr.com",
+    resolvers ++= Seq(
+      "twitter-repo" at "http://maven.twttr.com", 
+      "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
+    ),
 
     publishM2Configuration <<= (packagedArtifacts, checksums in publish, ivyLoggingLevel) map { (arts, cs, level) =>
       Classpaths.publishConfig(arts, None, resolverName = m2Repo.name, checksums = cs, logging = level)
